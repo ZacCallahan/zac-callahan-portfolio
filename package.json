@@ -1,7 +1,7 @@
 {
   "name": "zac-callahan-portfolio",
   "version": "0.1.0",
-  "homepage": "https://zaccallahan.github.io/zac-callahan-portfolio",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",

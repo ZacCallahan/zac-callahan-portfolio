@@ -1,8 +1,274 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 
+// Space Loader Component
+const SpaceLoader = ({ onComplete, duration = 2000 }) => {
+  // Generate random star positions
+  const starPositions = useMemo(() => {
+    const stars = [];
+    for (let i = 0; i < 100; i++) {
+      stars.push({
+        id: i,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        size: Math.random() * 2 + 1,
+        animationDelay: Math.random() * 3,
+        animationDuration: Math.random() * 4 + 3
+      });
+    }
+    return stars;
+  }, []);
+
+  // Generate glowing stars
+  const glowingStars = useMemo(() => {
+    const stars = [];
+    for (let i = 0; i < 30; i++) {
+      stars.push({
+        id: i,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        size: Math.random() * 3 + 2,
+        animationDelay: Math.random() * 4,
+        animationDuration: Math.random() * 6 + 4
+      });
+    }
+    return stars;
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onComplete?.();
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [duration, onComplete]);
+
+  return (
+    <div className="fixed inset-0 z-50 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      {/* CSS Animations for SpaceLoader */}
+      <style>{`
+        .animate-twinkle {
+          animation: twinkle 3s ease-in-out infinite;
+          opacity: 0.4;
+        }
+
+        .animate-glow {
+          animation: glow 4s ease-in-out infinite;
+          opacity: 0.2;
+        }
+
+        .animate-spin-very-slow {
+          animation: spin 25s linear infinite;
+        }
+
+        .animate-reverse-spin-slow {
+          animation: spin 35s linear infinite reverse;
+        }
+
+        .meteor {
+          position: absolute;
+          width: 3px;
+          height: 3px;
+          background: white;
+          border-radius: 50%;
+          filter: blur(1px);
+          box-shadow: 0 0 4px white;
+          left: -20%;
+        }
+
+        .meteor-1 {
+          top: 20%;
+          animation: meteor-move 3s linear infinite;
+        }
+
+        .meteor-2 {
+          top: 40%;
+          animation: meteor-move 4s linear infinite 1.5s;
+        }
+
+        .meteor-3 {
+          top: 60%;
+          animation: meteor-move 5s linear infinite 1s;
+        }
+
+        .meteor-4 {
+          top: 30%;
+          animation: meteor-move 3.5s linear infinite 2s;
+        }
+
+        .meteor-5 {
+          top: 70%;
+          animation: meteor-move 4.5s linear infinite 0.5s;
+        }
+
+        .meteor::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          right: 0;
+          width: 30px;
+          height: 2px;
+          background: linear-gradient(to left, white, transparent);
+          transform: translateY(-50%);
+          border-radius: 1px;
+        }
+
+        @keyframes twinkle {
+          0%, 100% { 
+            opacity: 0.3; 
+            transform: scale(1);
+          }
+          50% { 
+            opacity: 0.8; 
+            transform: scale(1.1);
+          }
+        }
+
+        @keyframes glow {
+          0%, 100% { 
+            opacity: 0.1; 
+            transform: scale(1); 
+          }
+          50% { 
+            opacity: 0.3; 
+            transform: scale(1.1); 
+          }
+        }
+
+        @keyframes meteor-move {
+          0% {
+            transform: translate(0, 0) rotate(45deg);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+          80% {
+            opacity: 1;
+          }
+          100% {
+            transform: translate(120vw, 120vh) rotate(45deg);
+            opacity: 0;
+          }
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes fade-in {
+          0% { opacity: 0; transform: translateY(20px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 1s ease-out;
+        }
+
+        .stars-pattern-1 {
+          background-image: radial-gradient(1px 1px at 20px 30px, white, transparent),
+                           radial-gradient(1px 1px at 40px 70px, white, transparent),
+                           radial-gradient(1px 1px at 90px 40px, white, transparent),
+                           radial-gradient(1px 1px at 130px 80px, white, transparent),
+                           radial-gradient(1px 1px at 160px 30px, white, transparent),
+                           radial-gradient(1px 1px at 200px 60px, white, transparent),
+                           radial-gradient(1px 1px at 250px 90px, white, transparent);
+          background-repeat: repeat;
+          background-size: 300px 300px;
+          width: 100%;
+          height: 100%;
+        }
+
+        .stars-pattern-2 {
+          background-image: radial-gradient(1px 1px at 50px 50px, white, transparent),
+                           radial-gradient(1px 1px at 100px 20px, white, transparent),
+                           radial-gradient(1px 1px at 150px 90px, white, transparent),
+                           radial-gradient(1px 1px at 200px 60px, white, transparent),
+                           radial-gradient(1px 1px at 80px 120px, white, transparent),
+                           radial-gradient(1px 1px at 180px 140px, white, transparent);
+          background-repeat: repeat;
+          background-size: 250px 250px;
+          width: 100%;
+          height: 100%;
+        }
+      `}</style>
+
+      {/* Full window stars with proper animations */}
+      <div className="absolute inset-0">
+        {starPositions.map((star) => (
+          <div
+            key={star.id}
+            className="absolute bg-white rounded-full star animate-twinkle"
+            style={{
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              animationDelay: `${star.animationDelay}s`,
+              animationDuration: `${star.animationDuration}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Glowing stars with proper animations */}
+      <div className="absolute inset-0">
+        {glowingStars.map((star) => (
+          <div
+            key={`glow-${star.id}`}
+            className="absolute bg-sky-300 rounded-full blur-sm star animate-glow"
+            style={{
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              animationDelay: `${star.animationDelay}s`,
+              animationDuration: `${star.animationDuration}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Rotating Star Layers */}
+      <div className="absolute inset-0 opacity-30 animate-spin-very-slow">
+        <div className="stars-pattern-1" />
+      </div>
+      <div className="absolute inset-0 opacity-20 animate-reverse-spin-slow">
+        <div className="stars-pattern-2" />
+      </div>
+
+      {/* Meteors with proper animation classes */}
+      <div className="absolute inset-0">
+        <div className="meteor meteor-1" />
+        <div className="meteor meteor-2" />
+        <div className="meteor meteor-3" />
+        <div className="meteor meteor-4" />
+        <div className="meteor meteor-5" />
+      </div>
+
+      {/* Central Content */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center">
+          {/* Main Title */}
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-white via-sky-200 to-white bg-clip-text text-transparent animate-fade-in">
+            Zac Callahan
+          </h1>
+          <p className="text-xl md:text-2xl text-sky-300 mb-8 animate-fade-in">
+            Software Developer
+          </p>
+          
+          <div className="text-white/80 font-mono text-sm tracking-widest animate-fade-in">
+            Welcome to my portfolio!
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Main Portfolio Component
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [visibleSections, setVisibleSections] = useState(new Set(['home']));
   const [showWelcome, setShowWelcome] = useState(true);
   const observerRef = useRef(null);
 
@@ -39,14 +305,10 @@ const Portfolio = () => {
     return stars;
   }, []);
 
-  // Welcome screen timer
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowWelcome(false);
-    }, 3000); // Show for 3 seconds
-
-    return () => clearTimeout(timer);
-  }, []);
+  // Handle space loader completion
+  const handleLoadingComplete = () => {
+    setShowWelcome(false);
+  };
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -58,7 +320,7 @@ const Portfolio = () => {
     observerRef.current = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          setVisibleSections(prev => new Set([...prev, entry.target.id]));
+          // Section is visible, could add animations here if needed
         }
       });
     }, observerOptions);
@@ -139,29 +401,6 @@ const Portfolio = () => {
       
       stars.forEach((star, index) => {
         // Subtle parallax effect based on mouse position
-        const strength = (index % 5 + 1) * 0.5;
-        const moveX = (mouseX - 0.5) * strength;
-        const moveY = (mouseY - 0.5) * strength;
-        
-        const currentTransform = star.style.transform || '';
-        const newTransform = currentTransform.replace(/translate\([^)]*\)/, '') + ` translate(${moveX}px, ${moveY}px)`;
-        star.style.transform = newTransform;
-      });
-    };
-
-    document.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => document.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  // Mouse movement effect for stars
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      const stars = document.querySelectorAll('.star');
-      const mouseX = e.clientX / window.innerWidth;
-      const mouseY = e.clientY / window.innerHeight;
-      
-      stars.forEach((star, index) => {
-        // Subtle parallax effect based on mouse position
         const strength = (index % 5 + 1) * 0.8;
         const moveX = (mouseX - 0.5) * strength;
         const moveY = (mouseY - 0.5) * strength;
@@ -191,7 +430,7 @@ const Portfolio = () => {
     { icon: '🐍', name: 'Python', color: '#3776AB' },
     { icon: '🗄️', name: 'SQL', color: '#4479A1' },
     { icon: '☁️', name: 'AWS', color: '#FF9900' },
-    { icon: '🔷', name: 'Azure', color: '#0078D4' },
+    { icon: '🔶', name: 'OCI', color: '#F80000' },
     { icon: '🐳', name: 'Docker', color: '#2496ED' },
     { 
       icon: (
@@ -266,7 +505,7 @@ const Portfolio = () => {
       bullets: [
         "Designed and developed AI chatbot using React (frontend) and Python (backend) delivering real-time Australian political insights",
         "Integrated chatbot into PoliMap platform enabling users to interact with political datasets through conversational interface",
-        "Used Docker for containerization ensuring consistent environments across development, testing, and production",
+        "Used Docker for containerisation ensuring consistent environments across development, testing, and production",
         "Implemented NLP and logic flows ensuring contextually relevant responses to user queries about Australian politics",
         "Monitored post-deployment performance identifying edge cases and refining dialogue handling based on user feedback"
       ]
@@ -284,7 +523,7 @@ const Portfolio = () => {
       title: "Zac Callahan Music (Personal Project)",
       bullets: [
         "Developed artist portfolio website featuring minimal, professional design with mobile-responsive codebase",
-        "Implemented performance optimizations achieving near-zero load times and seamless SoundCloud integration",
+        "Implemented performance optimisations achieving near-zero load times and seamless SoundCloud integration",
         "Deployed using Vercel with a custom domain for ease of accessibility",
         "Designed entirely mobile-friendly interface with robust responsive design principles"
       ]
@@ -300,76 +539,9 @@ const Portfolio = () => {
     }
   ];
 
-  // Welcome Screen Component
+  // Show Space Loader instead of the old welcome screen
   if (showWelcome) {
-    return (
-      <div className="fixed inset-0 z-50 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
-        {/* Use existing star system for welcome screen */}
-        <div className="absolute inset-0 overflow-hidden">
-          {starPositions.slice(0, 80).map((star) => (
-            <div
-              key={star.id}
-              className="absolute bg-white rounded-full opacity-60 star animate-pulse"
-              style={{
-                left: `${star.left}%`,
-                top: `${star.top}%`,
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                animationDelay: `${star.animationDelay}s`,
-                animationDuration: `${star.animationDuration}s`
-              }}
-            />
-          ))}
-          
-          {/* Add some colored glowing stars */}
-          {glowingStarPositions.slice(0, 15).map((star) => (
-            <div
-              key={`welcome-glow-${star.id}`}
-              className="absolute bg-sky-300 rounded-full opacity-40 blur-sm star animate-pulse"
-              style={{
-                left: `${star.left}%`,
-                top: `${star.top}%`,
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                animationDelay: `${star.animationDelay}s`,
-                animationDuration: `${star.animationDuration + 1}s`
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Central Loading Area */}
-        <div className="relative z-10 text-center flex flex-col items-center">
-          {/* New Spinning Loader */}
-          <div className="relative mb-8">
-            <div className="relative w-32 h-32">
-              <div
-                className="absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-r-sky-300 border-b-sky-300 animate-spin"
-                style={{animationDuration: '3s'}}
-              ></div>
-              <div
-                className="absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-t-sky-300 animate-spin"
-                style={{animationDuration: '2s', animationDirection: 'reverse'}}
-              ></div>
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-tr from-sky-300/10 via-transparent to-sky-300/5 animate-pulse rounded-full blur-sm"></div>
-          </div>
-          
-          {/* Loading Text */}
-          <div className="text-white font-mono text-lg tracking-widest mb-8 animate-pulse">
-            LOADING PORTFOLIO...
-          </div>
-          
-          {/* Welcome Text */}
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-sky-200 to-white bg-clip-text text-transparent animate-fade-in">
-            Zac Callahan
-          </h1>
-          <p className="text-lg md:text-xl text-sky-300 animate-fade-in">
-            Software Developer
-          </p>
-        </div>
-      </div>
-    );
+    return <SpaceLoader onComplete={handleLoadingComplete} duration={4000} />;
   }
 
   return (
@@ -458,7 +630,7 @@ const Portfolio = () => {
           ))}
         </div>
 
-        {/* Floating Elements with Animation - Removed the problematic left ball */}
+        {/* Floating Elements with Animation */}
         <div className="absolute inset-0 pointer-events-none z-10">
           <div className="absolute top-3/5 right-1/12 w-16 h-16 bg-sky-300/10 rounded-full animate-bounce" 
                style={{animationDelay: '2s', animationDuration: '6s'}} />
@@ -497,8 +669,17 @@ const Portfolio = () => {
             {/* Main large bubble - Red Robin Rating */}
             <div className="w-80 h-80 bg-gradient-to-br from-sky-300 to-sky-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform duration-300 shadow-2xl shadow-sky-300/20 relative z-10">
               <div className="w-72 h-72 bg-gray-700 rounded-full flex items-center justify-center overflow-hidden border-4 border-sky-200/20">
-                {/* Placeholder for Red Robin Rating screenshot */}
-                <div className="w-full h-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold">
+                {/* Red Robin Rating screenshot */}
+                <img 
+                  src="/logo.png" 
+                  alt="Red Robin Rating" 
+                  className="w-full h-full object-cover rounded-full"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="w-full h-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-xl font-bold" style={{display: 'none'}}>
                   Red Robin<br />Rating
                 </div>
               </div>
@@ -507,8 +688,17 @@ const Portfolio = () => {
             {/* Smaller offset bubble - Music Portfolio */}
             <div className="absolute -top-8 -right-8 w-48 h-48 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-xl shadow-purple-400/20 z-20">
               <div className="w-40 h-40 bg-gray-800 rounded-full flex items-center justify-center overflow-hidden border-3 border-purple-200/20">
-                {/* Placeholder for Music Portfolio screenshot */}
-                <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center text-white text-sm font-bold text-center">
+                {/* Music Portfolio screenshot */}
+                <img 
+                  src="/logo-dark.png" 
+                  alt="Zac Callahan Music Portfolio" 
+                  className="w-full h-full object-cover rounded-full"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center text-white text-sm font-bold text-center" style={{display: 'none'}}>
                   Zac Callahan<br />Music
                 </div>
               </div>
@@ -750,7 +940,7 @@ const Portfolio = () => {
                 {[
                   { category: "Frontend", skills: ["HTML5", "CSS3", "JavaScript", "React", "Tailwind CSS"] },
                   { category: "Backend & Database", skills: ["Python", "Node.js", "SQL", "MongoDB"] },
-                  { category: "Cloud & DevOps", skills: ["AWS", "Azure", "Docker", "Vercel", "Railway"] },
+                  { category: "Cloud & DevOps", skills: ["AWS", "OCI", "Docker", "Vercel", "Railway"] },
                   { category: "Tools & Others", skills: ["Git", "WordPress", "SendGrid", "JWT Auth"] }
                 ].map((skillGroup, index) => (
                   <div
@@ -838,9 +1028,8 @@ const Portfolio = () => {
           {/* Download Resume */}
           <div className="text-center p-8 bg-gray-800 rounded-2xl border border-gray-700 hover:border-sky-300 hover:shadow-lg hover:shadow-sky-300/10 hover:-translate-y-1 transition-all duration-300">
             <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/Zac Callahan Resume.pdf"
+              download="Zac_Callahan_Resume.pdf"
               className="bg-sky-300 text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-sky-400 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky-300/30 hover:scale-105 transition-all duration-300 inline-block"
             >
               📄 Download Resume PDF
@@ -923,7 +1112,141 @@ const Portfolio = () => {
       </div> {/* End Content Wrapper */}
 
       {/* Custom CSS for animations */}
-      <style jsx>{`
+      <style>{`
+        /* Space Loader Animations */
+        .animate-twinkle {
+          animation: twinkle 3s ease-in-out infinite;
+          opacity: 0.4;
+        }
+
+        .animate-glow {
+          animation: glow 4s ease-in-out infinite;
+          opacity: 0.2;
+        }
+
+        .animate-spin-very-slow {
+          animation: spin 25s linear infinite;
+        }
+
+        .animate-reverse-spin-slow {
+          animation: spin 35s linear infinite reverse;
+        }
+
+        .meteor {
+          position: absolute;
+          width: 3px;
+          height: 3px;
+          background: white;
+          border-radius: 50%;
+          filter: blur(1px);
+          box-shadow: 0 0 4px white;
+          left: -20%;
+        }
+
+        .meteor-1 {
+          top: 20%;
+          animation: meteor-move 3s linear infinite;
+        }
+
+        .meteor-2 {
+          top: 40%;
+          animation: meteor-move 4s linear infinite 1.5s;
+        }
+
+        .meteor-3 {
+          top: 60%;
+          animation: meteor-move 5s linear infinite 1s;
+        }
+
+        .meteor-4 {
+          top: 30%;
+          animation: meteor-move 3.5s linear infinite 2s;
+        }
+
+        .meteor-5 {
+          top: 70%;
+          animation: meteor-move 4.5s linear infinite 0.5s;
+        }
+
+        .meteor::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          right: 0;
+          width: 30px;
+          height: 2px;
+          background: linear-gradient(to left, white, transparent);
+          transform: translateY(-50%);
+          border-radius: 1px;
+        }
+
+        @keyframes twinkle {
+          0%, 100% { 
+            opacity: 0.3; 
+            transform: scale(1);
+          }
+          50% { 
+            opacity: 0.8; 
+            transform: scale(1.1);
+          }
+        }
+
+        @keyframes glow {
+          0%, 100% { 
+            opacity: 0.1; 
+            transform: scale(1); 
+          }
+          50% { 
+            opacity: 0.3; 
+            transform: scale(1.1); 
+          }
+        }
+
+        @keyframes meteor-move {
+          0% {
+            transform: translate(0, 0) rotate(45deg);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+          80% {
+            opacity: 1;
+          }
+          100% {
+            transform: translate(120vw, 120vh) rotate(45deg);
+            opacity: 0;
+          }
+        }
+
+        .stars-pattern-1 {
+          background-image: radial-gradient(1px 1px at 20px 30px, white, transparent),
+                           radial-gradient(1px 1px at 40px 70px, white, transparent),
+                           radial-gradient(1px 1px at 90px 40px, white, transparent),
+                           radial-gradient(1px 1px at 130px 80px, white, transparent),
+                           radial-gradient(1px 1px at 160px 30px, white, transparent),
+                           radial-gradient(1px 1px at 200px 60px, white, transparent),
+                           radial-gradient(1px 1px at 250px 90px, white, transparent);
+          background-repeat: repeat;
+          background-size: 300px 300px;
+          width: 100%;
+          height: 100%;
+        }
+
+        .stars-pattern-2 {
+          background-image: radial-gradient(1px 1px at 50px 50px, white, transparent),
+                           radial-gradient(1px 1px at 100px 20px, white, transparent),
+                           radial-gradient(1px 1px at 150px 90px, white, transparent),
+                           radial-gradient(1px 1px at 200px 60px, white, transparent),
+                           radial-gradient(1px 1px at 80px 120px, white, transparent),
+                           radial-gradient(1px 1px at 180px 140px, white, transparent);
+          background-repeat: repeat;
+          background-size: 250px 250px;
+          width: 100%;
+          height: 100%;
+        }
+
+        /* Original Portfolio Animations */
         @keyframes gentleTwinkle {
           0%, 100% { 
             opacity: 0.3; 
