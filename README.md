@@ -1,70 +1,129 @@
-# Getting Started with Create React App
+# Zac Callahan - React Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive portfolio website built with React and Tailwind CSS, showcasing software development projects and experience.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **React Components**: Modular, maintainable component architecture
+- **Tailwind CSS**: Utility-first styling with responsive design
+- **Interactive Animations**: Smooth hover effects and scroll-triggered animations
+- **Intersection Observer**: Progressive section loading as you scroll
+- **Responsive Design**: Mobile-first approach that works on all devices
+- **Print-Friendly Resume**: Optimized PDF generation for the resume section
+- **GitHub Pages Deployment**: Automated deployment workflow
 
-### `npm start`
+## 🛠️ Technologies
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 18
+- Tailwind CSS
+- Intersection Observer API
+- CSS Animations & Transitions
+- GitHub Pages
+- Modern JavaScript (ES6+)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🏃‍♂️ Quick Start
 
-### `npm test`
+```bash
+# Clone repository
+git clone https://github.com/ZacCallahan/zac-callahan-portfolio.git
+cd zac-callahan-portfolio
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Install dependencies
+npm install
 
-### `npm run build`
+# Start development server
+npm start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Build for production
+npm run build
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Deploy to GitHub Pages
+npm run deploy
+📱 Responsive Breakpoints
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Mobile: < 768px
+Tablet: 768px - 1024px
+Desktop: > 1024px
 
-### `npm run eject`
+✨ Animation Features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Scroll Animations: Sections fade in and slide up when scrolled into view
+Hover Effects: Interactive project cards, skill items, and buttons
+Floating Elements: Animated background elements in hero section
+Navigation: Active section highlighting with smooth scrolling
+Resume Interactions: Enhanced hover states throughout resume section
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+🎨 Customization
+Colors
+Update colors in tailwind.config.js:
+javascripttheme: {
+  extend: {
+    colors: {
+      'sky': {
+        300: '#your-color',
+        400: '#your-color',
+        500: '#your-color',
+      }
+    }
+  }
+}
+Content
+Update personal information in src/App.js:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Contact information
+Project descriptions
+Experience details
+Skills list
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+🚀 Deployment
+Automatic GitHub Pages Deployment
+bashnpm run deploy
+Manual Deployment Options
 
-## Learn More
+Vercel: Connect GitHub repository for automatic deployments
+Netlify: Drag and drop the build folder
+Firebase Hosting: Use Firebase CLI
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+📂 Project Structure
+zac-callahan-portfolio/
+├── public/
+│   ├── index.html
+│   ├── favicon.ico
+│   └── manifest.json
+├── src/
+│   ├── App.js              # Main portfolio component
+│   ├── index.js            # React entry point
+│   └── index.css           # Tailwind CSS + custom styles
+├── package.json
+├── tailwind.config.js
+├── postcss.config.js
+├── README.md
+└── .gitignore
+🎯 Performance Features
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Intersection Observer: Efficient scroll-triggered animations
+React Hooks: Optimized state management and effects
+Tailwind CSS: Purged CSS for smaller bundle size
+Component-based: Reusable and maintainable code structure
 
-### Code Splitting
+🔧 Development
+Local Development
+bashnpm start
+Opens http://localhost:3000 in your browser.
+Building for Production
+bashnpm run build
+Creates optimized production build in the build folder.
+Testing
+bashnpm test
+Launches the test runner in interactive watch mode.
+📞 Contact
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Email: calla1296@gmail.com
+GitHub: ZacCallahan
+Portfolio: www.zaccallahan.dev
 
-### Analyzing the Bundle Size
+🏆 Live Demo
+Visit the live site: https://zaccallahan.github.io/zac-callahan-portfolio
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built with using React and Tailwind CSS
+```
